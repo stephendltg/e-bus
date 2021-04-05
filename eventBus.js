@@ -24,22 +24,22 @@ module.exports = (func, n) => {
       (n.get(e) || []).slice().map( n => n(t) ),
       (n.get("*") || []).slice().map( n => n(e,t) )
     },
-    set: (k, v, e = 0) => {
-      if( typeof value === 'function' ) return
+    set: (k,v,e = 0) => {
+      if(typeof value === 'function') return
       mutate(k,v)
       return n.set(k, {
         value: v,
-        expiration: e !== 0 ? new Date().getTime() + parseInt(e) : 0
+        expiration: e != =0 ? new Date().getTime() + parseInt(e) : 0
       }).has(k)
     },
     del: (k) => n.delete(k),
-    get: (k, defaut = null) => {
-      if( !n.has(k) ) return defaut
+    get: (k,d= null) => {
+      if( !n.has(k) ) return d
       if( n.get(k).expiration === 0 ) return n.get(k).value
       else if( n.get(k).expiration > new Date().getTime() ) return n.get(k).value
       else n.delete(k)
-      mutate(k, defaut)
-      return defaut
+      mutate(k,null)
+      return d
     }
   }
 }
