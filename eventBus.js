@@ -35,12 +35,9 @@ module.exports = (func, n) => {
     del: (k) => n.delete(k),
     get: (k, defaut = null) => {
       if( !n.has(k) ) defaut
-      if( n.get(k).expiration === 0 )
-        return n.get(k).value
-      else if( n.get(k).expiration > new Date().getTime() )
-        return n.get(k).value
-      else 
-        n.delete(k)
+      if( n.get(k).expiration === 0 ) return n.get(k).value
+      else if( n.get(k).expiration > new Date().getTime() ) return n.get(k).value
+      else n.delete(k)
       mutate(k, defaut)
       return defaut
     }
