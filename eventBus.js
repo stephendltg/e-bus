@@ -32,7 +32,11 @@ module.exports = (func, n) => {
         expiration: e != =0 ? new Date().getTime() + parseInt(e) : 0
       }).has(k)
     },
-    del: (k) => n.delete(k),
+    del: (k) => {
+      let x = n.delete(k)
+      if(x) mutate(k,null)
+      return x
+    },
     get: (k,d= null) => {
       if( !n.has(k) ) return d
       if( n.get(k).expiration === 0 ) return n.get(k).value
