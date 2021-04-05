@@ -26,11 +26,12 @@ module.exports = (func, n) => {
     },
     set: (k,v,e = 0) => {
       if(typeof value === 'function') return
-      mutate(k,v)
-      return n.set(k, {
+      n.set(k, {
         value: v,
         expiration: e != =0 ? new Date().getTime() + parseInt(e) : 0
-      }).has(k)
+      })
+      mutate(k,v)
+      return n.has(k)
     },
     del: (k) => {
       let x = n.delete(k)
