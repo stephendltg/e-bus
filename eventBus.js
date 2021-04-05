@@ -3,23 +3,49 @@
 /**
  * EventBus
  */
-module.exports = (n) => { return {
+module.exports = (func, n) => { 
+  
+  const mutate = (k,v)=> typeof func === 'function' ? func(k,v) : null
+
+  return {
     all: n = n || new Map,
-    on: (e,t) => {
+    json: () => Array.from(n.entries()),
+    sub: (e,t) => {
       if(typeof t !== 'function') return
       let i = n.get(e)
       i&&i.push(t) || n.set(e,[t])
     },
-    off: (e,t) => {
+    unsub: (e,t) => {
       if(!t && n.delete(e)) return
       let i = n.get(e)
       if(i) while(i.indexOf(t) > -1) i.splice(i.indexOf(t),1)
     },
-    emit: (e,t) => {
+    pub: (e,t) => {
       (n.get(e) || []).slice().map( n => n(t) ),
       (n.get("*") || []).slice().map( n => n(e,t) )
+    },
+    set: (k, v, e = 0) => {
+      if( typeof value === 'function' ) return
+      n.set(k, {
+        value: v,
+        expiration: e !== 0 ? new Date().getTime() + parseInt(e) : 0
+      })
+      mutate(k, v)
+    },
+    del: (k) => n.delete(k),
+    get: (k, defaut = null) => {
+      if( !n.has(k) ) defaut
+      if( n.get(k).expiration === 0 )
+        return n.get(k).value
+      else if( n.get(k).expiration > new Date().getTime() )
+        return n.get(k).value
+      else 
+        n.delete(k)
+      mutate(k, defaut)
+      return defaut
     }
-  }}
+  }
+}
   
   
 /*
@@ -29,28 +55,41 @@ const emitter = require('./eventBus.js')()
 or
 const eventBus = require('./eventBus.js')
 const emitter = eventBus()
+
+or 
+
+const emitter = eventBus( (key, value) => console.log( key + ': ' + value) )
  
-// listen to an event
-emitter.on('foo', e => console.log('foo', e) )
+// subscribe to an event
+emitter.sub('foo', e => console.log('foo', e) )
  
-// listen to all events
-emitter.on('*', (type, e) => console.log(type, e) )
+// subscribe to all events
+emitter.sub('*', (type, e) => console.log(type, e) )
  
-// fire an event
-emitter.emit('foo', { a: 'b' })
+// publish an event
+emitter.pub('foo', { a: 'b' })
  
-// clearing all events
+// clearing all data
 emitter.all.clear()
  
 // working with handler references:
 function onFoo() {}
-emitter.on('foo', onFoo)   // listen
-emitter.off('foo', onFoo)  // unlisten function onFoo
-emitter.off('foo') // unlisten all functions
+emitter.sub('foo', onFoo)   // listen
+emitter.unsub('foo', onFoo)  // unlisten function onFoo
+emitter.unsub('foo') // unlisten all functions
 
 // bus function
-emitter.on('test', e => typeof e === 'function' ? e() : null )
-emitter.emit('test', ()=> console.log(678))
+emitter.sub('test', e => typeof e === 'function' ? e() : null )
+emitter.pub('test', ()=> console.log(678))
+
+// cache
+emitter.set('stub', 78)
+// cache with expiration in miliseconde
+emitter.set('stub', 89, 4000)
+// get cache
+emitter.get('stub')
+// del cache
+emitter.del('stub')
 
 
 all
