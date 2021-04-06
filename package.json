@@ -1,0 +1,22 @@
+{
+  "name": "eventbus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "contributors": [
+    "stephendltg"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephendltg/eventBus.git"
+  },
+  "author": "stephendltg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stephendltg/eventBus/issues"
+  },
+  "homepage": "https://github.com/stephendltg/eventBus#readme"
+}
