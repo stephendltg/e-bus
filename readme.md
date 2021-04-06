@@ -62,6 +62,7 @@ emitter.unsub('foo')
 
 ### STORE
 
+```
 // Store Set
 emitter.set('stub', 78)
 
