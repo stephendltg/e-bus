@@ -1,11 +1,8 @@
 {
-  "name": "e-bus",
+  "name": "@stephendltg/e-bus",
   "version": "1.0.0",
-  "description": "",
+  "description": "const emitter = require('./eventBus.js')()",
   "main": "index.js",
-  "contributors": [
-    "stephendltg"
-  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/stephendltg/e-bus.git"
   },
-  "author": "stephendltg",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/stephendltg/e-bus/issues"
