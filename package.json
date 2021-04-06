@@ -1,5 +1,5 @@
 {
-  "name": "eventbus",
+  "name": "e-bus",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stephendltg/eventBus.git"
+    "url": "git+https://github.com/stephendltg/e-bus.git"
   },
   "author": "stephendltg",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/stephendltg/eventBus/issues"
+    "url": "https://github.com/stephendltg/e-bus/issues"
   },
-  "homepage": "https://github.com/stephendltg/eventBus#readme"
+  "homepage": "https://github.com/stephendltg/e-bus#readme"
 }
