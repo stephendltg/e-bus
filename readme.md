@@ -1,14 +1,40 @@
-# USE
+# E-BUS
 
-const emitter = require('./eventBus.js')()
+E-bus was made for the browser and nodejs
 
-or
-const eventBus = require('./eventBus.js')
+## INSTALL
+
+```
+npm install --save @stephendltg/e-bus
+```
+
+For browser hhen with a module bundler like rollup or webpack, use as you would anything else:
+
+```
+// using ES6 modules
+import eventBus from '@stephendltg/e-bus'
+ 
+// using CommonJS modules
+var eventBus = require('@stephendltg/e-bus')
+```
+
+## USAGE
+
+```
 const emitter = eventBus()
+```
 
-or 
+or add mutate (store) func && init store
 
-const emitter = eventBus( (key, value) => console.log( key + ': ' + value) )
+```
+const mutate = (key, value) => console.log(key + ': ' + value)
+const init = new Map([['foo', 'Hello world]])
+const emitter = eventBus( mutate, init)
+```
+
+### PUB/SUB
+
+```
  
 // subscribe to an event
 emitter.sub('foo', e => console.log('foo', e) )
@@ -19,52 +45,39 @@ emitter.sub('*', (type, e) => console.log(type, e) )
 // publish an event
 emitter.pub('foo', { a: 'b' })
  
-// clearing all data
-emitter.all.clear()
- 
 // working with handler references:
 function onFoo() {}
 emitter.sub('foo', onFoo)   // listen
 emitter.unsub('foo', onFoo)  // unlisten function onFoo
 emitter.unsub('foo') // unlisten all functions
 
-// bus function
+// working with bus function
 emitter.sub('test', e => typeof e === 'function' ? e() : null )
 emitter.pub('test', ()=> console.log(678))
 
-// cache
+// Remove sub
+emitter.unsub('foo')
+
+```
+
+### STORE
+
+// Store Set
 emitter.set('stub', 78)
-// cache with expiration in miliseconde
+
+// Store with expiration in millisecondes
 emitter.set('stub', 89, 4000)
-// get cache
+
+// Store get
 emitter.get('stub')
-// del cache
+
+// Store delete
 emitter.del('stub')
 
+// clearing all data
+emitter.all.clear()
 
-all
-A Map of event names to registered handler functions.
+// Export store to json
+let export = emitter.json()
 
-on
-Register an event handler for the given type.
-
-Parameters
-type (string | symbol) Type of event to listen for, or "*" for all events
-handler Function Function to call in response to given event
-
-off
-Remove an event handler for the given type.
-
-Parameters
-type (string | symbol) Type of event to unregister handler from, or "*"
-handler Function Handler function to remove
-
-emit
-Invoke all handlers for the given type. If present, "*" handlers are invoked after type-matched handlers.
-
-Note: Manually firing "*" handlers is not supported.
-
-Parameters
-type (string | symbol) The event type to invoke
-evt Any? Any value (object is recommended and powerful), passed to each handler
-
+```
