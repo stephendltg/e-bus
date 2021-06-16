@@ -37,7 +37,7 @@ function writeNewDocsVersion() {
     let versionWithRevisionSuffix = `${version}-revision.1`
 
     writeToPackageDotJson('docs', 'version', versionWithRevisionSuffix)
-    console.log('Bumping @alpinejs/docs package.json: '+version);
+    console.log('Bumping @@stephen/ebus-docs package.json: '+version);
 }
 
 function buildAssets() {

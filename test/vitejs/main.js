@@ -1,6 +1,9 @@
 import './style.css'
 
-import mitt from '@stephendltg/e-bus/dist/module.esm'
+// import mitt from '@stephendltg/e-bus/dist/module.esm'
+
+
+import mitt from '@stephendltg/e-bus'
 
 window.mitt = mitt()
 
