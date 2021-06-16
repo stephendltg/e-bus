@@ -28,6 +28,8 @@ function bundleFile(package, file) {
                 bundle: true,
                 platform: 'browser',
                 define: { CDN: true },
+            }).then(() => {
+                outputSize(package + '.js', `packages/${package}/dist/${file}`)
             })
 
             // Build a minified version.
@@ -39,7 +41,7 @@ function bundleFile(package, file) {
                 platform: 'browser',
                 define: { CDN: true },
             }).then(() => {
-                outputSize(package, `packages/${package}/dist/${file.replace('.js', '.min.js')}`)
+                outputSize(package + '.min.js', `packages/${package}/dist/${file.replace('.js', '.min.js')}`)
             })
 
         },
@@ -54,6 +56,9 @@ function bundleFile(package, file) {
                 platform: 'neutral',
                 mainFields: ['main', 'module'],
             })
+            .then(() => {
+                outputSize('module.esm.js', `packages/${package}/dist/module.esm.js`)
+            })
 
             build({
                 entryPoints: [`packages/${package}/builds/${file}`],
@@ -62,6 +67,7 @@ function bundleFile(package, file) {
                 target: ['node10.4'],
                 platform: 'node',
             }).then(() => {
+                outputSize('module.cjs.js', `packages/${package}/dist/module.cjs.js`)
                 writeToPackageDotJson(package, 'main', `dist/${file.replace('.js', '.cjs.js')}`)
                 writeToPackageDotJson(package, 'module', `dist/${file.replace('.js', '.esm.js')}`)
             })
