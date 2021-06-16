@@ -1,4 +1,4 @@
-let { runFromPackage, writeToPackageDotJson } = require('./utils')
+let { runFromPackage, writeToPackageDotJson, getFromPackageDotJson } = require('./utils')
 let chalk = require('chalk');
 let log = message => console.log(chalk.green(message))
 let version = process.argv[2]
