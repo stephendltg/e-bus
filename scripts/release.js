@@ -11,7 +11,7 @@ if (! /[0-9]+\.[0-9]+\.[0-9]+/.test(version)) {
     return console.log('Whoops, the supplies version is invalid: '+version)
 }
 
-writeNewAlpineVersion()
+writeNewVersion()
 writeNewDocsVersion()
 buildAssets()
 
@@ -28,7 +28,7 @@ setTimeout(() => {
     });
 }, 1000)
 
-function writeNewAlpineVersion() {
+function writeNewVersion() {
     writeToPackageDotJson('e-bus', 'version', version)
     console.log('Bumping e-bus package.json: '+version);
 }
