@@ -3,6 +3,8 @@ let chalk = require('chalk');
 let log = message => console.log(chalk.green(message))
 let version = process.argv[2]
 
+log(´Version: ${getFromPackageDotJson('e-bus', 'version')}´ )
+
 if (! version) {
     return console.log('Whoops, you must pass in a version number to this command as the argument')
 }
