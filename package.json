@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Message Queuing & memory data store",
   "main": "index.js",
   "engines": {
@@ -20,7 +20,7 @@
     "watch": "node ./scripts/build.js --watch",
     "update-docs": "node ./scripts/update-docs.js",
     "release": "node ./scripts/release.js",
-    "svn": "bash SCRIPTS/release.sh"
+    "svn": "bash ./scripts/release.sh"
   },
   "repository": {
     "type": "git",
