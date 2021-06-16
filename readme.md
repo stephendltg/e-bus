@@ -12,10 +12,28 @@ For browser hhen with a module bundler like rollup or webpack, use as you would 
 
 ```
 // using ES6 modules
-import eventBus from '@stephendltg/e-bus'
+import eventBus from '@stephendltg/e-bus/dist/module.esm'
  
 // using CommonJS modules
-var eventBus = require('@stephendltg/e-bus')
+var eventBus = require('@stephendltg/e-bus/src')
+
+// HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../packages/e-bus/dist/cdn.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    console.log(mitt)
+  </script>
+  
+</body>
+</html>
 ```
 
 ## USAGE

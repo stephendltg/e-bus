@@ -1,3 +1,3 @@
-import bus from './../src/index'
+import ebus from './../src/index'
 
-window.bus = bus()
+window.mitt = ebus()

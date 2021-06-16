@@ -47,9 +47,9 @@ function buildAssets() {
 
 function publish() {
     console.log('Publishing @stephendltg/e-bus on NPM...');
-    runFromPackage('@stephendltg/e-bus', 'npm publish')
+    runFromPackage('e-bus', 'npm publish')
 
-    console.log('Publishing @stephendltg/e-bus on NPM...');
+    console.log('Publishing @stephendltg/docs on NPM...');
     runFromPackage('docs', 'npm publish --access public')
 
     log('\n\nFinished!')
