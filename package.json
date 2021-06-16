@@ -1,19 +1,32 @@
 {
   "name": "@stephendltg/e-bus",
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"No test specified\""
+    "test": "echo \"No test specified\"",
+    "build": "node ./scripts/build.js",
+    "watch": "node ./scripts/build.js --watch",
+    "update-docs": "node ./scripts/update-docs.js",
+    "release": "node ./scripts/release.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stephendltg/e-bus.git"
   },
-  "author": "",
+  "author": "Stephen Deletang",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/stephendltg/e-bus/issues"
   },
-  "homepage": "https://github.com/stephendltg/e-bus#readme"
+  "homepage": "https://github.com/stephendltg/e-bus#readme",
+  "devDependencies": {
+    "brotli-size": "^4.0.0",
+    "chalk": "^4.1.1",
+    "dot-json": "^1.2.2",
+    "esbuild": "^0.12.9"
+  }
 }

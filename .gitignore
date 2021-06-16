@@ -5,7 +5,9 @@
 
 # Node artifact files
 node_modules/
+scratch.md
 dist/
+package-lock.json
 logs/*.log
 
 # Compiled Java class files

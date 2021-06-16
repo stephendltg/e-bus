@@ -1,0 +1,13 @@
+{
+  "name": "@stephendltg/e-bus",
+  "version": "1.0.3",
+  "description": "",
+  "main": "dist/module.cjs.js",
+  "module": "dist/module.esm.js",
+  "unpkg": "dist/cdn.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stephen Deletang",
+  "license": "ISC"
+}
