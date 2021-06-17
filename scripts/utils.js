@@ -7,7 +7,7 @@
 
 let fs = require('fs');
 let DotJson = require('dot-json');
-let { exec } = require('child_process');
+let { execSync } = require('child_process');
 let brotliSize = require('brotli-size');
 
 /**
@@ -24,11 +24,18 @@ const bytesToSize = (bytes) => {
 }
 
 module.exports.runFromPackage = function (package, command) {
-    exec(command, { cwd: __dirname+'/../packages/'+package })
+    execSync(command, { cwd: __dirname+'/../packages/'+package }, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+    })
 }
 
 module.exports.run = function (command) {
-    exec(command, { cwd: __dirname+'/..' })
+    execSync(command, { cwd: __dirname+'/..' })
 }
 
 module.exports.writeToPackageDotJson = function (package, key, value) {

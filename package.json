@@ -39,6 +39,7 @@
     "brotli-size": "^4.0.0",
     "chalk": "^4.1.1",
     "dot-json": "^1.2.2",
-    "esbuild": "^0.12.9"
+    "esbuild": "^0.12.9",
+    "prompts": "^2.4.1"
   }
 }

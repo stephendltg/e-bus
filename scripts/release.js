@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Name: Release
  * Description: package release
@@ -5,61 +7,60 @@
  * Version: 1.0.0
  */
 
-let { runFromPackage, writeToPackageDotJson, getFromPackageDotJson } = require('./utils')
+const prompts = require('prompts')
 let chalk = require('chalk');
-let log = message => console.log(chalk.green(message))
-let version = process.argv[2]
+let { runFromPackage, writeToPackageDotJson, getFromPackageDotJson, run } = require('./utils')
 
-log(`Version: ${getFromPackageDotJson('e-bus', 'version')}` )
+async function init() {
 
-if (! version) {
-    return console.log('Whoops, you must pass in a version number to this command as the argument')
+  let target = 'e-bus'
+
+  const response = await prompts(
+    [
+      {
+        type: 'select',
+        name: 'package',
+        message: 'Select a package',
+        choices: [
+          { title: 'e-bus', description: getFromPackageDotJson('e-bus', 'description'), value: 'e-bus' },
+          { title: 'docs', description: getFromPackageDotJson('docs', 'description'), value: 'docs' }
+        ],
+        initial: 1,
+        onState: (state) => target = state.value
+      },
+      {
+      type: 'text',
+      name: 'version',
+      message: () => `${target} version: [actual: ${getFromPackageDotJson( target, 'version')}]`,
+      initial: getFromPackageDotJson( target, 'version'),
+      validate: value => ! /[0-9]+\.[0-9]+\.[0-9]+/.test(value) ? `Whoops, the supplies version is invalid` : true
+      },
+      {
+        type: 'confirm',
+        name: 'npm',
+        message: 'Are you sure you want to publish this release ?',
+        initial: false
+      }
+    ]);
+
+  const { package, version, npm } = response
+
+  writeToPackageDotJson(package, 'version', version);
+  console.log(chalk.green('✔'), chalk.green(`Bumping ${package} package.json: ${version}`));
+
+  console.log(chalk.blue('ℹ'), chalk.blue('Building assets...'));
+  run('npm run build')
+  console.log(chalk.blue('✔'), chalk.green('Build'));
+
+  if(npm) {
+    console.log(chalk.yellow('⚠'), chalk.yellow(`Publishing ${getFromPackageDotJson(package, 'name')} on NPM...`));
+    runFromPackage(package, 'npm publish')
+  }
+  
+  console.log(chalk.blue('✔'), chalk.green('Finish'));
 }
 
-if (! /[0-9]+\.[0-9]+\.[0-9]+/.test(version)) {
-    return console.log('Whoops, the supplies version is invalid: '+version)
-}
 
-writeNewVersion()
-writeNewDocsVersion()
-buildAssets()
-
-let readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-setTimeout(() => {
-    readline.question('Are you sure you want to publish this release: '+version+'?', answer => {
-        if (['y', 'Y', 'yes', 'Yes', 'YES'].includes(answer)) publish()
-
-        readline.close();
-    });
-}, 1000)
-
-function writeNewVersion() {
-    writeToPackageDotJson('e-bus', 'version', version)
-    console.log('Bumping e-bus package.json: '+version);
-}
-
-function writeNewDocsVersion() {
-    let versionWithRevisionSuffix = `${version}-revision.1`
-
-    writeToPackageDotJson('docs', 'version', versionWithRevisionSuffix)
-    console.log('Bumping @stephen/ebus-docs package.json: '+version);
-}
-
-function buildAssets() {
-    console.log('Building assets...')
-    require('./build')
-}
-
-function publish() {
-    console.log('Publishing @stephendltg/e-bus on NPM...');
-    // runFromPackage('e-bus', 'npm publish')
-
-    console.log('Publishing @stephendltg/docs on NPM...');
-    // runFromPackage('docs', 'npm publish --access public')
-
-    log('\n\nFinished!')
-}
+init().catch((e) => {
+  console.error(chalk.red('✖'), e)
+})

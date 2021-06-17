@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Name: build
  * Description: package builder

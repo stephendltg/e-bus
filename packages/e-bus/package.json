@@ -1,6 +1,6 @@
 {
   "name": "@stephendltg/e-bus",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Message Queuing & memory data store",
   "main": "dist/module.cjs.js",
   "module": "dist/module.esm.js",
