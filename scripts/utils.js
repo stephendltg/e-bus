@@ -40,13 +40,11 @@ module.exports.run = function (command) {
 
 module.exports.writeToPackageDotJson = function (package, key, value) {
     let dotJson = new DotJson(`./packages/${package}/package.json`)
-
     dotJson.set(key, value).save()
 }
 
 module.exports.getFromPackageDotJson = function (package, key) {
     let dotJson = new DotJson(`./packages/${package}/package.json`)
-
     return dotJson.get(key)
 }
 

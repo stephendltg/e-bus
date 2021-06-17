@@ -45,7 +45,15 @@ async function init() {
 
   const { package, version, npm } = response
 
-  writeToPackageDotJson(package, 'version', version);
+  if (package === 'docs') {
+    let docsVersion = getFromPackageDotJson('docs', 'version')
+    let ebusVersion = getFromPackageDotJson('e-bus', 'version')
+    let revision = docsVersion.match(/revision\.([0-9]+)/)[1]
+    let newVersion = ebusVersion + '-revision.' + (Number(revision) + 1)
+    writeToPackageDotJson(package, 'version', newVersion);
+  } else {
+    writeToPackageDotJson(package, 'version', version);
+  }
   console.log(chalk.green('✔'), chalk.green(`Bumping ${package} package.json: ${version}`));
 
   console.log(chalk.blue('ℹ'), chalk.blue('Building assets...'));
