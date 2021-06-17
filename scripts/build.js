@@ -1,6 +1,14 @@
+/**
+ * Name: build
+ * Description: package builder
+ * Author: stephen D.
+ * Version: 1.0.0
+ */
+
 let fs = require('fs');
-let DotJson = require('dot-json');
-let brotliSize = require('brotli-size');
+let chalk = require('chalk');
+let log = message => console.log(chalk.blue(message))
+let { writeToPackageDotJson, getFromPackageDotJson, outputSize } = require('./utils');
 
 ([
     // Packages:
@@ -12,11 +20,17 @@ let brotliSize = require('brotli-size');
 
     // Go through each file in the package's "build" directory
     // and use the appropriate bundling strategy based on its name.
+    log(package)
     fs.readdirSync(`./packages/${package}/builds`).forEach(file => {
         bundleFile(package, file)
     });
 })
 
+/**
+ * Bundle files
+ * @param {package name} package 
+ * @param {file} file 
+ */
 function bundleFile(package, file) {
     // Based on the filename, give esbuild a specific configuration to build.
     ({
@@ -29,7 +43,7 @@ function bundleFile(package, file) {
                 platform: 'browser',
                 define: { CDN: true },
             }).then(() => {
-                outputSize(package + '.js', `packages/${package}/dist/${file}`)
+                outputSize('cdn.js', `packages/${package}/dist/${file}`)
             })
 
             // Build a minified version.
@@ -41,7 +55,7 @@ function bundleFile(package, file) {
                 platform: 'browser',
                 define: { CDN: true },
             }).then(() => {
-                outputSize(package + '.min.js', `packages/${package}/dist/${file.replace('.js', '.min.js')}`)
+                outputSize('cdn.min.js', `packages/${package}/dist/${file.replace('.js', '.min.js')}`)
             })
 
         },
@@ -75,6 +89,11 @@ function bundleFile(package, file) {
     })[file]()
 }
 
+/**
+ * Esbuilder
+ * @param {options build} options 
+ * @returns 
+ */
 function build(options) {
     options.define || (options.define = {})
 
@@ -86,29 +105,3 @@ function build(options) {
         ...options,
     }).catch(() => process.exit(1))
 }
-
-function writeToPackageDotJson(package, key, value) {
-    let dotJson = new DotJson(`./packages/${package}/package.json`)
-
-    dotJson.set(key, value).save()
-}
-
-function getFromPackageDotJson(package, key) {
-    let dotJson = new DotJson(`./packages/${package}/package.json`)
-
-    return dotJson.get(key)
-}
-
-function outputSize(package, file) {
-    let size = bytesToSize(brotliSize.sync(fs.readFileSync(file)))
-
-    console.log("\x1b[32m", `${package}: ${size}`)
-}
-
-function bytesToSize(bytes) {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-    if (bytes === 0) return 'n/a'
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
-    if (i === 0) return `${bytes} ${sizes[i]}`
-    return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`
-  }

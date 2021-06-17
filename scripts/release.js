@@ -1,9 +1,16 @@
+/**
+ * Name: Release
+ * Description: package release
+ * Author: stephen D.
+ * Version: 1.0.0
+ */
+
 let { runFromPackage, writeToPackageDotJson, getFromPackageDotJson } = require('./utils')
 let chalk = require('chalk');
 let log = message => console.log(chalk.green(message))
 let version = process.argv[2]
 
-log(´Version: ${getFromPackageDotJson('e-bus', 'version')}´ )
+log(`Version: ${getFromPackageDotJson('e-bus', 'version')}` )
 
 if (! version) {
     return console.log('Whoops, you must pass in a version number to this command as the argument')
@@ -49,10 +56,10 @@ function buildAssets() {
 
 function publish() {
     console.log('Publishing @stephendltg/e-bus on NPM...');
-    runFromPackage('e-bus', 'npm publish')
+    // runFromPackage('e-bus', 'npm publish')
 
     console.log('Publishing @stephendltg/docs on NPM...');
-    runFromPackage('docs', 'npm publish --access public')
+    // runFromPackage('docs', 'npm publish --access public')
 
     log('\n\nFinished!')
 }
