@@ -20,8 +20,13 @@ svn:
 	@echo "Git release ${PROJECT}..."
 	bash scripts/release.sh
 
+clean:
+	@echo "Clean project ${PROJECT}..."
+	rm -rf ./node_modules
+	rm -f package-lock.json
 
 help: 
 	@echo "install: Install ${PROJECT}"
 	@echo "nvm: NVM install${PROJECT}"
+	@echo "clean: Clean ${PROJECT}"
 	@echo "svn: Release app${PROJECT}"
