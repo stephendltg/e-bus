@@ -9,7 +9,6 @@
 
 let fs = require('fs');
 let chalk = require('chalk');
-let log = message => console.log(chalk.blue(message))
 let { writeToPackageDotJson, getFromPackageDotJson, outputSize } = require('./utils');
 
 ([
@@ -22,7 +21,8 @@ let { writeToPackageDotJson, getFromPackageDotJson, outputSize } = require('./ut
 
     // Go through each file in the package's "build" directory
     // and use the appropriate bundling strategy based on its name.
-    log(package)
+    console.log(chalk.blue('ℹ'), chalk.blue('Package: ' +package))
+    
     fs.readdirSync(`./packages/${package}/builds`).forEach(file => {
         bundleFile(package, file)
     });

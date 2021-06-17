@@ -76,5 +76,5 @@ module.exports.getFromPackageDotJson = function (package, key) {
  */
 module.exports.outputSize = function (package, file) {
     let size = bytesToSize(brotliSize.sync(fs.readFileSync(file)))
-    console.log("\x1b[32m", `${package}: ${size}`)
+    console.log("\x1b[32m", `✔ ${package}: ${size}`)
 }
