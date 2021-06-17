@@ -23,6 +23,11 @@ const bytesToSize = (bytes) => {
     return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`
 }
 
+/**
+ * Exec command in specific dir
+ * @param {package name} package 
+ * @param {command bash} command 
+ */
 module.exports.runFromPackage = function (package, command) {
     execSync(command, { cwd: __dirname+'/../packages/'+package }, (error, stdout, stderr) => {
         if (error) {
@@ -34,20 +39,41 @@ module.exports.runFromPackage = function (package, command) {
     })
 }
 
+/**
+ * Exec command
+ * @param {command bash} command 
+ */
 module.exports.run = function (command) {
     execSync(command, { cwd: __dirname+'/..' })
 }
 
+/**
+ * Write field in package json
+ * @param {package name} package 
+ * @param {field json} key 
+ * @param {field value} value 
+ */
 module.exports.writeToPackageDotJson = function (package, key, value) {
     let dotJson = new DotJson(`./packages/${package}/package.json`)
     dotJson.set(key, value).save()
 }
 
+/**
+ * Read field in package json
+ * @param {package name} package 
+ * @param {field} key 
+ * @returns 
+ */
 module.exports.getFromPackageDotJson = function (package, key) {
     let dotJson = new DotJson(`./packages/${package}/package.json`)
     return dotJson.get(key)
 }
 
+/**
+ * Size file build
+ * @param {package name} package 
+ * @param {file} file 
+ */
 module.exports.outputSize = function (package, file) {
     let size = bytesToSize(brotliSize.sync(fs.readFileSync(file)))
     console.log("\x1b[32m", `${package}: ${size}`)

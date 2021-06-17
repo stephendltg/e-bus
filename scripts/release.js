@@ -11,6 +11,10 @@ const prompts = require('prompts')
 let chalk = require('chalk');
 let { runFromPackage, writeToPackageDotJson, getFromPackageDotJson, run } = require('./utils')
 
+/**
+ * Prompt
+ * @returns 
+ */
 async function init() {
 
   let target = 'e-bus'
@@ -74,7 +78,9 @@ async function init() {
   }
 }
 
-
+/**
+ * Init
+ */
 init().catch((e) => {
   console.error(chalk.red('✖'), e)
 })
