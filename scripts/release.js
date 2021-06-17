@@ -30,7 +30,7 @@ async function init() {
             { title: 'e-bus', description: getFromPackageDotJson('e-bus', 'description'), value: 'e-bus' },
             { title: 'docs', description: getFromPackageDotJson('docs', 'description'), value: 'docs' }
           ],
-          initial: 1,
+          initial: 'e-bus',
           onState: (state) => target = state.value
         },
         {
