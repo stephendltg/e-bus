@@ -1,37 +1,102 @@
-## Welcome to GitHub Pages
+Message Queuing & memory data store
 
-You can use the [editor on GitHub](https://github.com/stephendltg/e-bus/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+E-bus was made for the browser and nodejs
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## INSTALL
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+npm install --save @stephendltg/e-bus
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+For browser hhen with a module bundler like rollup or webpack, use as you would anything else:
 
-### Jekyll Themes
+```
+// using ES6 modules
+import emitter from '@stephendltg/e-bus'
+ 
+// using CommonJS modules
+var emitter = require('@stephendltg/e-bus/dist/module.esm')
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/stephendltg/e-bus/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+// HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://unpkg.com/@stephendltg/e-bus"></script>
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    console.log(mitt)
+  </script>
+  
+</body>
+</html>
+```
 
-### Support or Contact
+## USAGE
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```
+const mitt = emitter()
+```
+
+or add mutate (store) func && init store
+
+```
+const mutate = (key, value) => console.log(key + ': ' + value)
+const init = new Map([['title', {value: 'Hello world', expiration: 0}]])
+const mitt = emitter( mutate, init)
+```
+
+### PUB/SUB
+
+```
+ 
+// subscribe to an event
+mitt.sub('foo', e => console.log('foo', e) )
+ 
+// subscribe to all events
+mitt.sub('*', (type, e) => console.log(type, e) )
+ 
+// publish an event
+mitt.pub('foo', { a: 'b' })
+ 
+// working with handler references:
+function onFoo() {}
+mitt.sub('foo', onFoo)   // listen
+mitt.unsub('foo', onFoo)  // unlisten function onFoo
+mitt.unsub('foo') // unlisten all functions
+
+// working with bus function
+mitt.sub('test', e => typeof e === 'function' ? e() : null )
+mitt.pub('test', ()=> console.log(678))
+
+// Remove sub
+mitt.unsub('foo')
+
+```
+
+### STORE
+
+```
+// Store Set
+mitt.set('stub', 78)
+
+// Store with expiration in millisecondes
+mitt.set('stub', 89, 4000)
+
+// Store get
+mitt.get('stub')
+
+// Store delete
+mitt.del('stub')
+
+// clearing all data
+mitt.all.clear()
+
+// Export store to json
+let export = mitt.json()
+
+```
