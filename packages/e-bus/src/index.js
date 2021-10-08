@@ -25,7 +25,7 @@ module.exports = (func, n) => {
       (n.get("*") || []).slice().map( n => n(e,t) )
     },
     set: (k,v,e = 0) => {
-      if(typeof value === 'function') return
+      if(typeof v === 'function') return
       n.set(k, {
         value: v,
         expiration: e !== 0 ? new Date().getTime() + parseInt(e) : 0
